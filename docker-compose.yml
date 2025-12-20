@@ -8,10 +8,13 @@ services:
     volumes:
       - ./backend:/app
     environment:
-      - DATABASE_HOST=db
+      - DB_HOST=db
+      - MYSQL_ROOT_PASSWORD=password
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     user: root
+    command: ./bin/rails server -b 0.0.0.0
 
   frontend:
     build:
@@ -33,6 +36,11 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql_data:
