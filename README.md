@@ -73,9 +73,58 @@ React（フロントエンド）と Rails（API）を分離した構成で、学
 
 | Method | Endpoint       | Description |
 | ------ | -------------- | ----------- |
-| POST   | /duck_logs     | ログ作成        |
-| GET    | /duck_logs     | ログ一覧取得      |
-| GET    | /duck_logs/:id | ログ詳細取得      |
+| GET    | /ducklogs      | ログ一覧取得      |
+| POST   | /ducklogs      | ログ作成        |
+| GET    | /ducklogs/:id  | ログ詳細取得      |
+| PATCH  | /ducklogs/:id  | ログ編集        |
+| DELETE | /ducklogs/:id  | ログ削除        |
+
+### リクエスト・レスポンス例
+
+#### POST /ducklogs（ログ作成）
+
+**リクエスト:**
+```json
+{
+  "ducklog": {
+    "title": "React の hooks で詰まった",
+    "content": "useState を複数使うときの順序が重要..."
+  }
+}
+```
+
+**レスポンス (201 Created):**
+```json
+{
+  "id": 1,
+  "title": "React の hooks で詰まった",
+  "content": "useState を複数使うときの順序が重要...",
+  "created_at": "2024-12-21T10:30:45.000Z",
+  "updated_at": "2024-12-21T10:30:45.000Z"
+}
+```
+
+#### GET /ducklogs（ログ一覧取得）
+
+**レスポンス (200 OK):**
+```json
+[
+  {
+    "id": 1,
+    "title": "React の hooks で詰まった",
+    "content": "useState を複数使うときの順序が重要...",
+    "created_at": "2024-12-21T10:30:45.000Z",
+    "updated_at": "2024-12-21T10:30:45.000Z"
+  },
+  {
+    "id": 2,
+    "title": "Rails のアソシエーション",
+    "content": "has_many と belongs_to の使い分け...",
+    "created_at": "2024-12-21T11:00:00.000Z",
+    "updated_at": "2024-12-21T11:00:00.000Z"
+  }
+]
+```
 
 ---
 
@@ -139,6 +188,19 @@ docker-compose up
 
 ```bash
 docker-compose exec backend bundle exec rails db:migrate
+```
+
+### テスト実行
+
+```bash
+# RSpec テスト（全体）
+docker-compose exec backend bundle exec rspec
+
+# RSpec テスト（特定ファイル）
+docker-compose exec backend bundle exec rspec spec/requests/ducklogs_spec.rb
+
+# RSpec テスト（詳細出力）
+docker-compose exec backend bundle exec rspec spec/requests/ducklogs_spec.rb --format documentation
 ```
 
 ### ログ確認
