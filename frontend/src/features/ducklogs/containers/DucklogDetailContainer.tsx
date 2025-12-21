@@ -35,30 +35,39 @@ export default function DucklogDetailContainer() {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <button onClick={() => navigate("/list")}>← 一覧に戻る</button>
-        <div>
+      <div className="flex justify-between items-center mb-6">
+        <button
+          onClick={() => navigate("/list")}
+          className="px-4 py-2 text-gray-700 hover:text-gray-900 transition-colors"
+        >
+          ← 一覧に戻る
+        </button>
+        <div className="flex gap-2">
           <button
             onClick={() => navigate(`/list/${id}/edit`)}
-            style={{ marginRight: "10px" }}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
           >
             編集
           </button>
           <button
             onClick={handleDelete}
             disabled={deleting}
-            style={{ color: "red" }}
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:bg-red-400 disabled:cursor-not-allowed transition-colors"
           >
             {deleting ? "削除中..." : "削除"}
           </button>
         </div>
       </div>
 
-      <article>
-        <h2>title: {ducklog.title || "（タイトルなし）"}</h2>
-        <div style={{ whiteSpace: "pre-wrap" }}>content: {ducklog.content}</div>
-        <p>
-          <small>作成日時: {new Date(ducklog.created_at).toLocaleString("ja-JP")}</small>
+      <article className="bg-white border border-gray-200 rounded-lg p-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          {ducklog.title || "（タイトルなし）"}
+        </h2>
+        <div className="text-gray-700 whitespace-pre-wrap mb-4 leading-relaxed">
+          {ducklog.content}
+        </div>
+        <p className="text-sm text-gray-500 border-t border-gray-200 pt-3">
+          作成日時: {new Date(ducklog.created_at).toLocaleString("ja-JP")}
         </p>
       </article>
     </div>

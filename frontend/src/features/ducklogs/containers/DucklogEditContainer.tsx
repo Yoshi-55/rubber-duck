@@ -57,11 +57,13 @@ export default function DucklogEditContainer() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
       {updateError && <ErrorMessage message={updateError} />}
 
-      <div>
-        <label htmlFor="title">タイトル</label>
+      <div className="mb-4">
+        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+          タイトル
+        </label>
         <input
           type="text"
           id="title"
@@ -69,11 +71,14 @@ export default function DucklogEditContainer() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="例: React の hooks で詰まった"
           disabled={updating}
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
         />
       </div>
 
-      <div>
-        <label htmlFor="content">説明（必須）</label>
+      <div className="mb-6">
+        <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
+          説明（必須）
+        </label>
         <textarea
           id="content"
           value={content}
@@ -82,17 +87,23 @@ export default function DucklogEditContainer() {
           rows={10}
           disabled={updating}
           required
+          className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 resize-vertical"
         />
       </div>
 
-      <div>
-        <button type="submit" disabled={updating}>
+      <div className="flex gap-2">
+        <button
+          type="submit"
+          disabled={updating}
+          className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
+        >
           {updating ? "更新中..." : "更新する"}
         </button>
         <button
           type="button"
           onClick={() => navigate(`/list/${id}`)}
           disabled={updating}
+          className="px-6 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
         >
           キャンセル
         </button>
