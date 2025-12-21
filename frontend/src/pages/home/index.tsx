@@ -5,7 +5,7 @@ export default function HomePage() {
     <div>
       <h1>Ruber Duck App</h1>
       <p>ラバーダッキング支援アプリ</p>
-      <Link to="/ducklogs">はじめる</Link>
+      <Link to="/list">はじめる</Link>
     </div>
   );
 }
