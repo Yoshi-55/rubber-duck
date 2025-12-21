@@ -27,23 +27,31 @@ export default function DucklogListContainer() {
   }
 
   return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h2>ログ一覧</h2>
+    <div className="max-w-2xl mx-auto">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">ログ一覧</h2>
         <Link to="/create">
-          <button>+ 新規作成</button>
+          <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+            + 新規作成
+          </button>
         </Link>
       </div>
-      <ul>
+      <div className="grid gap-4">
         {ducklogs.map((ducklog) => (
-          <li key={ducklog.id}>
-            <Link to={`/list/${ducklog.id}`}>
-              <h3>{ducklog.title || "（タイトルなし）"}</h3>
-              <p>{ducklog.content.substring(0, 100)}{ducklog.content.length > 100 ? "..." : ""}</p>
-            </Link>
-          </li>
+          <Link
+            key={ducklog.id}
+            to={`/list/${ducklog.id}`}
+            className="block p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md hover:border-blue-300 transition-all"
+          >
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              {ducklog.title || "（タイトルなし）"}
+            </h3>
+            <p className="text-gray-600 text-sm line-clamp-3">
+              {ducklog.content.substring(0, 100)}{ducklog.content.length > 100 ? "..." : ""}
+            </p>
+          </Link>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
