@@ -1,14 +1,14 @@
-import './styles/main.css'
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./pages/home";
+import DucklogListPage from "./pages/ducklogs/ducklogListPage";
 
 function App() {
   return (
-    <>
-      <h1 className='font-bold text-8xl col'>Ruber Duck App</h1>
-      <p className='text-4xl'>
-        🐣ラバーダック支援アプリ🐣
-      </p>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/list" element={<DucklogListPage />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
