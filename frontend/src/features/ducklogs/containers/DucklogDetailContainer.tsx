@@ -2,13 +2,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDucklog } from "../../../hooks/useDucklog";
 import { useDeleteDucklog } from "../../../hooks/useDeleteDucklog";
 import Loading from "../../../components/common/Loading";
+import ErrorMessage from "../../../components/common/ErrorMessage";
 import EmptyState from "../../../components/common/EmptyState";
 
 export default function DucklogDetailContainer() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { ducklog, loading, error } = useDucklog(id);
-  const { remove, deleting } = useDeleteDucklog();
+  const { remove, deleting, error: deleteError } = useDeleteDucklog();
 
   const handleDelete = async () => {
     if (!id) return;
@@ -35,6 +36,8 @@ export default function DucklogDetailContainer() {
 
   return (
     <div>
+      {deleteError && <ErrorMessage message={deleteError} />}
+
       <div className="flex justify-between items-center mb-6">
         <button
           onClick={() => navigate("/list")}
