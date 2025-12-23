@@ -20,7 +20,7 @@ export function useDucklog(id: string | undefined) {
         const data = await fetchDucklog(id);
         setDucklog(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
+        setError(err instanceof Error ? err.message : "エラーが発生しました");
       } finally {
         setLoading(false);
       }
