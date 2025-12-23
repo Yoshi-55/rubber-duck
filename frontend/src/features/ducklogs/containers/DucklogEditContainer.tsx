@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { FormEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import type { NavigateFunction } from "react-router-dom";
 import { useDucklog } from "../../../hooks/useDucklog";
 import { useUpdateDucklog } from "../../../hooks/useUpdateDucklog";
+import type { DuckLog } from "../../../types/ducklog";
 import Loading from "../../../components/common/Loading";
 import ErrorMessage from "../../../components/common/ErrorMessage";
 import EmptyState from "../../../components/common/EmptyState";
@@ -12,35 +14,6 @@ export default function DucklogEditContainer() {
   const navigate = useNavigate();
   const { ducklog, loading: fetchLoading, error: fetchError } = useDucklog(id);
   const { update, loading: updating, error: updateError } = useUpdateDucklog();
-
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
-  // ログデータをフォームに反映
-  useEffect(() => {
-    if (ducklog) {
-      setTitle(ducklog.title || "");
-      setContent(ducklog.content);
-    }
-  }, [ducklog]);
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    if (!id || !content.trim()) {
-      return;
-    }
-
-    try {
-      await update(id, {
-        title: title.trim() || null,
-        content: content.trim(),
-      });
-      navigate(`/list/${id}`);
-    } catch {
-      // エラーはuseUpdateDucklogで処理済み
-    }
-  };
 
   if (fetchLoading) {
     return <Loading />;
@@ -56,21 +29,56 @@ export default function DucklogEditContainer() {
     );
   }
 
+  return <DucklogEditForm ducklog={ducklog} updating={updating} updateError={updateError} update={update} navigate={navigate} id={id} />;
+}
+
+interface DucklogEditFormProps {
+  ducklog: DuckLog;
+  updating: boolean;
+  updateError: string | null;
+  update: (id: string, data: { title: string | null; content: string }) => Promise<DuckLog>;
+  navigate: NavigateFunction;
+  id: string | undefined;
+}
+
+function DucklogEditForm({ ducklog, updating, updateError, update, navigate, id }: DucklogEditFormProps) {
+  const [title, setTitle] = useState(ducklog.title || "");
+  const [content, setContent] = useState(ducklog.content || "");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (!id || !title.trim() || !content.trim()) {
+      return;
+    }
+
+    try {
+      await update(id, {
+        title: title.trim(),
+        content: content.trim(),
+      });
+      navigate(`/list/${id}`);
+    } catch {
+      // エラーはuseUpdateDucklogで処理済み
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
       {updateError && <ErrorMessage message={updateError} />}
 
       <div className="mb-4">
         <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-          タイトル
+          タイトル（必須）
         </label>
         <input
           type="text"
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="例: React の hooks で詰まった"
+          placeholder="整理したいテーマや課題を入力してください"
           disabled={updating}
+          required
           className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
         />
       </div>
@@ -97,7 +105,7 @@ export default function DucklogEditContainer() {
           disabled={updating}
           className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
         >
-          {updating ? "更新中..." : "更新する"}
+          更新する
         </button>
         <button
           type="button"
