@@ -14,7 +14,7 @@ export function useDucklogs() {
         const data = await fetchDucklogs();
         setDucklogs(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
+        setError(err instanceof Error ? err.message : "エラーが発生しました");
       } finally {
         setLoading(false);
       }

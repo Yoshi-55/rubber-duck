@@ -4,10 +4,12 @@ import DucklogListPage from "./pages/ducklogs/ducklogListPage";
 import DucklogCreatePage from "./pages/ducklogs/ducklogCreatePage";
 import DucklogDetailPage from "./pages/ducklogs/ducklogDetailPage";
 import DucklogEditPage from "./pages/ducklogs/ducklogEditPage";
+import Header from "./components/common/Header";
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header />
       <div className="mx-auto px-4 py-8 max-w-4xl">
         <Routes>
           <Route path="/" element={<HomePage />} />

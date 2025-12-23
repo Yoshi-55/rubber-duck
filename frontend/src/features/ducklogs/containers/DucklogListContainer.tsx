@@ -3,6 +3,7 @@ import { useDucklogs } from "../../../hooks/useDucklogs";
 import Loading from "../../../components/common/Loading";
 import ErrorMessage from "../../../components/common/ErrorMessage";
 import EmptyState from "../../../components/common/EmptyState";
+import duckImage from "../../../assets/duck.png";
 
 export default function DucklogListContainer() {
   const { ducklogs, loading, error } = useDucklogs();
@@ -27,9 +28,8 @@ export default function DucklogListContainer() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">ログ一覧</h2>
+    <div className="max-w-2xl mx-auto relative">
+      <div className="flex justify-end items-center mb-6">
         <Link to="/create">
           <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
             + 新規作成
@@ -52,6 +52,11 @@ export default function DucklogListContainer() {
           </Link>
         ))}
       </div>
+      <img
+        src={duckImage}
+        alt="Duck"
+        className="fixed bottom-8 right-8 w-64 h-64 object-contain pointer-events-none animate-sway"
+      />
     </div>
   );
 }

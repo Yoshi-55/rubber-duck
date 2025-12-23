@@ -13,13 +13,13 @@ export default function DucklogCreateContainer() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!content.trim()) {
+    if (!title.trim() || !content.trim()) {
       return;
     }
 
     try {
       await create({
-        title: title.trim() || null,
+        title: title.trim(),
         content: content.trim(),
       });
       navigate("/list");
@@ -34,15 +34,16 @@ export default function DucklogCreateContainer() {
 
       <div className="mb-4">
         <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-          タイトル
+          タイトル（必須）
         </label>
         <input
           type="text"
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="例: React の hooks で詰まった"
+          placeholder="整理したいテーマや課題を入力してください"
           disabled={loading}
+          required
           className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
         />
       </div>
@@ -69,7 +70,7 @@ export default function DucklogCreateContainer() {
           disabled={loading}
           className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
         >
-          {loading ? "保存中..." : "保存する"}
+          保存する
         </button>
         <button
           type="button"
